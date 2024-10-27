@@ -4,7 +4,7 @@ import { Like, AddButton, Facebook } from "../icons";
 
 const Product = () => {
   return (
-    <div className="w-72 h-[21rem] rounded-2xl border-2 -opacity-50 p-5">
+    <div className="w-48 md:w-72 h-[21rem] rounded-2xl border-2 -opacity-50 p-5">
       <Image
         src="/images/products/tomato.png"
         alt=""

@@ -37,7 +37,7 @@ const Market = () => {
           <BackArrow /> <span>Vegetables & fruits</span>
         </p>
 
-        <article className="mt-20 flex gap-2">
+        <article className="mt-20 flex">
           <div className="flex flex-col gap-3">
             <SideNav />
             <SideNav />
@@ -45,7 +45,7 @@ const Market = () => {
             <SideNav />
           </div>
 
-          <div className="flex gap-3">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 w-[90%]">
             <Product />
             <Product />
             <Product />
