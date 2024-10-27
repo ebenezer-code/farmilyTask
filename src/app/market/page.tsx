@@ -37,9 +37,20 @@ const Market = () => {
           <BackArrow /> <span>Vegetables & fruits</span>
         </p>
 
-        <article className="mt-20 flex">
-          <SideNav />
-          <Product />
+        <article className="mt-20 flex gap-2">
+          <div className="flex flex-col gap-3">
+            <SideNav />
+            <SideNav />
+            <SideNav />
+            <SideNav />
+          </div>
+
+          <div className="flex gap-3">
+            <Product />
+            <Product />
+            <Product />
+            <Product />
+          </div>
         </article>
       </section>
 
