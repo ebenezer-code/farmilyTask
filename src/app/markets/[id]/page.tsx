@@ -1,14 +1,29 @@
 "use client";
 import Image from "next/image";
 import { Key, useEffect, useState, use } from "react";
-import { Hamburger, Logo, Search, Box, Share, More } from "@/app/icons";
+import {
+  Hamburger,
+  Logo,
+  Search,
+  Box,
+  Share,
+  More,
+} from "@/app/icons";
 import { Product } from "@/app/components";
+import useStore from "../../../../store";
 
 interface Product {
-  idMeal: Key | null | undefined;
+  idMeal: number;
   strCategory: string;
   strMeal: string;
   strMealThumb: string;
+}
+
+interface CartItem {
+  id: number;
+  name: string;
+  category: string;
+  image: string;
 }
 
 const SingleMarket = ({ params }: { params: Promise<{ id: string }> }) => {
@@ -16,6 +31,7 @@ const SingleMarket = ({ params }: { params: Promise<{ id: string }> }) => {
   const [productData, setproductData] = useState<Product[]>([]);
   const [productsData, setProductsData] = useState<Product[]>([]);
   const [isLoading, setIsLLoading] = useState(false);
+  const addToCart = useStore((state) => state.addToCart);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -51,7 +67,16 @@ const SingleMarket = ({ params }: { params: Promise<{ id: string }> }) => {
     fetchProduct();
     fetchProducts();
   }, []);
-  console.log(productData);
+
+  const handleAddToCart = ({ id, name, category, image }: CartItem) => {
+    addToCart({
+      name,
+      category,
+      image,
+      id,
+    });
+  };
+
   return (
     <div>
       <nav className="relative top-10 flex items-center justify-between p-5 shadow-custom shadow-green-100 w-full">
@@ -126,7 +151,17 @@ const SingleMarket = ({ params }: { params: Promise<{ id: string }> }) => {
               <span>0</span>
               <span>+</span>
             </button>
-            <button className="bg-[#346D4D] text-white rounded-3xl w-full py-3 px-8">
+            <button
+              onClick={() =>
+                handleAddToCart({
+                  id: productData[0]?.idMeal,
+                  name: productData[0]?.strMeal,
+                  category: productData[0]?.strCategory,
+                  image: productData[0]?.strMealThumb
+                })
+              }
+              className="bg-[#346D4D] text-white rounded-3xl w-full py-3 px-8"
+            >
               Add to cart
             </button>
           </div>
