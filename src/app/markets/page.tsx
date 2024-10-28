@@ -1,4 +1,6 @@
+"use client";
 import Image from "next/image";
+import { Key, useEffect, useState } from "react";
 import {
   Hamburger,
   Logo,
@@ -13,7 +15,36 @@ import {
 } from "../icons";
 import { SideNav, Product } from "../components";
 
+interface Product {
+  idMeal: Key | null | undefined;
+  strCategory: string;
+  strMeal: string;
+  strMealThumb: string;
+}
+
 const Market = () => {
+  const [productsData, setProductsData] = useState<Product[]>([]);
+  const [isLoading, setIsLLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      setIsLLoading(true);
+      try {
+        const response = await fetch(
+          "https://www.themealdb.com/api/json/v1/1/search.php?s="
+        );
+        const json = await response.json();
+        setProductsData(json.meals);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      } finally {
+        setIsLLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
   return (
     <section className="pb-52">
       <nav className="relative top-10 flex items-center justify-between p-5 shadow-custom shadow-green-100 w-full">
@@ -37,19 +68,34 @@ const Market = () => {
           <BackArrow /> <span>Vegetables & fruits</span>
         </p>
 
-        <article className="mt-20 flex">
+        <article className="mt-20 flex gap-4">
           <div className="flex flex-col gap-3">
-            <SideNav />
-            <SideNav />
-            <SideNav />
-            <SideNav />
+            {isLoading ? (
+              <p>Loading</p>
+            ) : (
+              productsData.map((product) => (
+                <SideNav
+                  key={product.idMeal}
+                  name={product.strMeal}
+                  image={product.strMealThumb}
+                />
+              ))
+            )}
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-5 gap-3 w-[90%]">
-            <Product width="48" />
-            <Product width="48" />
-            <Product width="48" />
-            <Product width="48" />
+            {isLoading ? (
+              <p>Loading</p>
+            ) : (
+              productsData.map((product) => (
+                <Product
+                  category={product.strCategory}
+                  name={product.strMeal}
+                  image={product.strMealThumb}
+                  width="72"
+                />
+              ))
+            )}
           </div>
         </article>
       </section>

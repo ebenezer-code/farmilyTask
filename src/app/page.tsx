@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { categories } from "./data/data";
 import { CategoryComp } from "./components";
 import {
@@ -55,7 +56,9 @@ export default function Home() {
         </div>
 
         {categories.map((category) => (
-          <CategoryComp image={category.image} category={category.category} />
+          <Link href="/markets">
+            <CategoryComp image={category.image} category={category.category} />
+          </Link>
         ))}
       </article>
 

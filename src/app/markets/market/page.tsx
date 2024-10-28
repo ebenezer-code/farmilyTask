@@ -1,8 +1,56 @@
+"use client";
 import Image from "next/image";
+import { Key, useEffect, useState } from "react";
 import { Hamburger, Logo, Search, Box, Share, More } from "@/app/icons";
 import { Product } from "@/app/components";
 
+interface Product {
+  idMeal: Key | null | undefined;
+  strCategory: string;
+  strMeal: string;
+  strMealThumb: string;
+}
+
 const SingleMarket = () => {
+  const [productData, setproductData] = useState<Product[]>([]);
+  const [productsData, setProductsData] = useState<Product[]>([]);
+  const [isLoading, setIsLLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      setIsLLoading(true);
+      try {
+        const response = await fetch(
+          "https://www.themealdb.com/api/json/v1/1/lookup.php?i=52772"
+        );
+        const json = await response.json();
+        setproductData(json.meals);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      } finally {
+        setIsLLoading(false);
+      }
+    };
+
+    const fetchProducts = async () => {
+      setIsLLoading(true);
+      try {
+        const response = await fetch(
+          "https://www.themealdb.com/api/json/v1/1/search.php?s="
+        );
+        const json = await response.json();
+        setProductsData(json.meals);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      } finally {
+        setIsLLoading(false);
+      }
+    };
+
+    fetchProduct();
+    fetchProducts();
+  }, []);
+  console.log(productData);
   return (
     <div>
       <nav className="relative top-10 flex items-center justify-between p-5 shadow-custom shadow-green-100 w-full">
@@ -29,7 +77,10 @@ const SingleMarket = () => {
           </div>
           <div className="w-fit mx-auto bg-white p-5 py-16">
             <Image
-              src="/images/products/tomato.png"
+              src={
+                productData[0]?.strMealThumb ||
+                "https://img.freepik.com/free-photo/tasty-burger-isolated-white-background-fresh-hamburger-fastfood-with-beef-cheese_90220-1063.jpg"
+              }
               alt=""
               width={200}
               height={200}
@@ -37,8 +88,8 @@ const SingleMarket = () => {
             />
           </div>
           <div>
-            <p className="text-2xl">Tomatoes</p>
-            <p className="text-[#6B7F73]">Little Leaf Farms</p>
+            <p className="text-2xl">{productData[0]?.strMeal}</p>
+            <p className="text-[#6B7F73]">{productData[0]?.strCategory}</p>
           </div>
         </article>
 
@@ -81,12 +132,24 @@ const SingleMarket = () => {
         </article>
 
         <article className="mt-14">
-            <p className="text-xl font-[1200]">More Products</p>
-            <div className="grid md:grid-cols-5 place-items-center gap-4 element mt-2">
-                <Product width="72" />
-                <Product width="72" />
-                <Product width="72" />
-            </div>
+          <p className="text-xl font-[1200]">More Products</p>
+          <div className="grid md:grid-cols-5 place-items-center gap-4 element mt-2">
+            {isLoading ? (
+              <p>Loading</p>
+            ) : (
+              productsData
+                .slice(0, 8)
+                .map((product) => (
+                  <Product
+                    key={product.idMeal}
+                    category={product.strCategory}
+                    name={product.strMeal}
+                    image={product.strMealThumb}
+                    width="72"
+                  />
+                ))
+            )}
+          </div>
         </article>
       </section>
     </div>
