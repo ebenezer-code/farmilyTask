@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { Key, useEffect, useState } from "react";
+import { Key, useEffect, useState, use } from "react";
 import { Hamburger, Logo, Search, Box, Share, More } from "@/app/icons";
 import { Product } from "@/app/components";
 
@@ -11,7 +11,8 @@ interface Product {
   strMealThumb: string;
 }
 
-const SingleMarket = () => {
+const SingleMarket = ({ params }: { params: Promise<{ id: string }> }) => {
+  const { id } = use(params);
   const [productData, setproductData] = useState<Product[]>([]);
   const [productsData, setProductsData] = useState<Product[]>([]);
   const [isLoading, setIsLLoading] = useState(false);
@@ -21,7 +22,7 @@ const SingleMarket = () => {
       setIsLLoading(true);
       try {
         const response = await fetch(
-          "https://www.themealdb.com/api/json/v1/1/lookup.php?i=52772"
+          `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`
         );
         const json = await response.json();
         setproductData(json.meals);
@@ -79,7 +80,7 @@ const SingleMarket = () => {
             <Image
               src={
                 productData[0]?.strMealThumb ||
-                "https://img.freepik.com/free-photo/tasty-burger-isolated-white-background-fresh-hamburger-fastfood-with-beef-cheese_90220-1063.jpg"
+                "https://img.freepik.com/free-vector/plate-with-cutlery_1284-42854.jpg"
               }
               alt=""
               width={200}

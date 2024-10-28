@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import Link from "next/link";
 import { Key, useEffect, useState } from "react";
 import {
   Hamburger,
@@ -88,12 +89,14 @@ const Market = () => {
               <p>Loading</p>
             ) : (
               productsData.map((product) => (
-                <Product
-                  category={product.strCategory}
-                  name={product.strMeal}
-                  image={product.strMealThumb}
-                  width="72"
-                />
+                <Link key={product.idMeal} href={`/markets/${product.idMeal}`}>
+                  <Product
+                    category={product.strCategory}
+                    name={product.strMeal}
+                    image={product.strMealThumb}
+                    width="72"
+                  />
+                </Link>
               ))
             )}
           </div>
