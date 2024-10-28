@@ -12,6 +12,8 @@ import BackArrow from "./BackArrow";
 import Like from "./Like";
 import AddButton from "./AddButton";
 import Favourite from "./Favourite";
+import Share from "./Share";
+import More from "./More";
 
 export {
   Hamburger,
@@ -28,4 +30,6 @@ export {
   Like,
   AddButton,
   Favourite,
+  Share,
+  More
 };

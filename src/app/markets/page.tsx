@@ -45,11 +45,11 @@ const Market = () => {
             <SideNav />
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 w-[90%]">
-            <Product />
-            <Product />
-            <Product />
-            <Product />
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-3 w-[90%]">
+            <Product width="48" />
+            <Product width="48" />
+            <Product width="48" />
+            <Product width="48" />
           </div>
         </article>
       </section>

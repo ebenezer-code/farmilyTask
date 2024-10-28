@@ -12,7 +12,7 @@ const CategoryComp: React.FC<CategoryCompProps> = ({ image, category }) => {
       <span className="w-[25%]">
         <Image src={image} alt="" width={100} height={100} />
       </span>
-      <p className="font-bold w-[50%]">{category}</p>
+      <p className="font-bold w-[60%] text-sm">{category}</p>
       <div></div>
     </div>
   );

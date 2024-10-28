@@ -2,9 +2,15 @@ import React from "react";
 import Image from "next/image";
 import { Like, AddButton, Facebook } from "../icons";
 
-const Product = () => {
+interface ProductProps {
+  width: string;
+}
+
+const Product: React.FC<ProductProps> = ({ width }) => {
   return (
-    <div className="w-48 md:w-72 h-[21rem] rounded-2xl border-2 -opacity-50 p-5">
+    <div
+      className={`w-${width} h-[21rem] rounded-2xl border-2 p-5`}
+    >
       <Image
         src="/images/products/tomato.png"
         alt=""
